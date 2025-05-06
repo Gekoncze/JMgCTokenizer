@@ -57,7 +57,7 @@ public @Service class WordTokenParser implements TokenParser {
     private @Mandatory Token parse(@Mandatory CharacterReader reader, @Mandatory TokenBuilder builder) {
         while (reader.has()) {
             if (reader.has(this::wordOrNumber)) {
-                builder.getText().append(reader.read());
+                builder.append(reader.read());
             } else {
                 break;
             }

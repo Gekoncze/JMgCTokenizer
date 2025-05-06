@@ -57,7 +57,7 @@ public @Service class SymbolsTokenParser implements TokenParser {
     private @Mandatory Token parse(@Mandatory CharacterReader reader, @Mandatory TokenBuilder builder) {
         while (reader.has()) {
             if (reader.has(this::symbol)) {
-                builder.getText().append(reader.read());
+                builder.append(reader.read());
             } else {
                 break;
             }

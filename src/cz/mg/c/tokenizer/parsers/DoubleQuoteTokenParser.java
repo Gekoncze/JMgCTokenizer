@@ -40,13 +40,13 @@ public @Service class DoubleQuoteTokenParser implements TokenParser {
         reader.read();
         while (reader.has()) {
             if (reader.has(this::backslash) && reader.hasNext()) {
-                builder.getText().append(reader.read());
-                builder.getText().append(reader.read());
+                builder.append(reader.read());
+                builder.append(reader.read());
             } else if (reader.has(this::doubleQuote)) {
                 reader.read();
                 return builder.build(DoubleQuoteToken::new);
             } else {
-                builder.getText().append(reader.read());
+                builder.append(reader.read());
             }
         }
         throw new TokenizeException(builder.getPosition(), "Unclosed double quotes.");

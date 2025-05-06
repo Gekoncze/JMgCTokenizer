@@ -42,7 +42,7 @@ public @Service class SingleLineCommentTokenParser implements TokenParser {
             if (reader.has(this::newline)) {
                 break;
             } else {
-                builder.getText().append(reader.read());
+                builder.append(reader.read());
             }
         }
         return builder.build(SingleLineCommentToken::new);

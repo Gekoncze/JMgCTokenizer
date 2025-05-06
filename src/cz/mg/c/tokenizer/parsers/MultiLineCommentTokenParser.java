@@ -45,7 +45,7 @@ public @Service class MultiLineCommentTokenParser implements TokenParser {
                 reader.read();
                 return builder.build(MultiLineCommentToken::new);
             } else {
-                builder.getText().append(reader.read());
+                builder.append(reader.read());
             }
         }
         throw new TokenizeException(builder.getPosition(), "Unclosed multiline token.");
