@@ -1,7 +1,11 @@
 package cz.mg.c.tokenizer.parsers;
 
+import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.classes.Test;
+import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.test.Assert;
 import cz.mg.token.tokens.quote.SingleQuoteToken;
+import cz.mg.tokenizer.components.CharacterReader;
 
 public @Test class SingleQuoteTokenParserTest {
     public static void main(String[] args) {
@@ -9,14 +13,15 @@ public @Test class SingleQuoteTokenParserTest {
 
         SingleQuoteTokenParserTest test = new SingleQuoteTokenParserTest();
         test.testParse();
+        test.testParseEscapeSequence();
 
         System.out.println("OK");
     }
 
+    private final @Service SingleQuoteTokenParser parser = SingleQuoteTokenParser.getInstance();
+
     private void testParse() {
-        TokenParserTester tester = new TokenParserTester(
-            SingleQuoteTokenParser.getInstance(), 1, 1, SingleQuoteToken.class
-        );
+        TokenParserTester tester = new TokenParserTester(parser, 1, 1, SingleQuoteToken.class);
         tester.testParse("");
         tester.testException("'");
         tester.testException("test '");
@@ -36,6 +41,20 @@ public @Test class SingleQuoteTokenParserTest {
         tester.testParse("", "'test //'", "");
         tester.testParse("", "'test /*'", "");
         tester.testParse("", "'test \"'", "'");
-        tester.testParse("", "'\\\\'", "");
+    }
+
+    private void testParseEscapeSequence() {
+        Assert.assertEquals("n", parse("'n'"));
+        Assert.assertEquals("\n", parse("'\\n'"));
+        Assert.assertEquals("\"", parse("'\\\"'"));
+        Assert.assertEquals("'", parse("'\\''"));
+        Assert.assertEquals("test \" test", parse("'test \\\" test'"));
+        Assert.assertEquals("K", parse("'\\u004B'"));
+    }
+
+    private @Mandatory String parse(@Mandatory String input) {
+        SingleQuoteToken output = parser.parse(new CharacterReader(input));
+        Assert.assertNotNull(output);
+        return output.getText();
     }
 }
