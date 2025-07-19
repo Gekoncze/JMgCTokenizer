@@ -1,4 +1,4 @@
-package cz.mg.c.tokenizer.parsers;
+package cz.mg.c.tokenizer.parsers.escape;
 
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
