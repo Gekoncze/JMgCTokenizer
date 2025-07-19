@@ -3,11 +3,13 @@ package cz.mg.c.tokenizer;
 import cz.mg.annotations.classes.Test;
 import cz.mg.c.tokenizer.parsers.*;
 import cz.mg.c.tokenizer.parsers.escape.EscapeSequenceParserTest;
+import cz.mg.c.tokenizer.parsers.escape.HexNumberParserTest;
 
 public @Test class AllTests {
     public static void main(String[] args) {
         // cz.mg.c.tokenizer.escape
         EscapeSequenceParserTest.main(args);
+        HexNumberParserTest.main(args);
 
         // cz.mg.c.tokenizer.parsers
         DoubleQuoteTokenParserTest.main(args);

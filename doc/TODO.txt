@@ -1,8 +1,8 @@
 ### NOW ###
-    ...
+    add support for hexadecimal escape sequences (such as \x123)
 
 ### SOON ###
-    add support for hexadecimal escape sequences (such as \x123)
+    ...
 
 ### LATER ###
     add support for octal escape sequences
