@@ -19,6 +19,7 @@ public @Test class MultiLineCommentTokenParserTest {
         );
         tester.testParse("");
         tester.testException("/*");
+        tester.testException("/* foo bar");
         tester.testParse("int a = 0;");
         tester.testParse("int a = 0; ", "/* test*/", "");
         tester.testParse("int a = 0; ", "/*test*/", "");
