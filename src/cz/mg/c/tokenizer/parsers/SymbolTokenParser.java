@@ -6,7 +6,6 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.tokenizer.components.CharacterReader;
 import cz.mg.tokenizer.components.TokenBuilder;
 import cz.mg.tokenizer.components.TokenParser;
-import cz.mg.token.Token;
 import cz.mg.token.tokens.SymbolToken;
 
 public @Service class SymbolTokenParser implements TokenParser {
@@ -56,7 +55,7 @@ public @Service class SymbolTokenParser implements TokenParser {
     }
 
     @Override
-    public @Optional Token parse(@Mandatory CharacterReader reader) {
+    public @Optional SymbolToken parse(@Mandatory CharacterReader reader) {
         if (reader.has(this::symbol)) {
             return TokenBuilder.build(reader, SymbolToken::new);
         } else {

@@ -4,7 +4,6 @@ import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.tokenizer.components.TokenParser;
-import cz.mg.token.Token;
 import cz.mg.token.tokens.quote.DoubleQuoteToken;
 import cz.mg.tokenizer.components.CharacterReader;
 import cz.mg.tokenizer.components.TokenBuilder;
@@ -28,7 +27,7 @@ public @Service class DoubleQuoteTokenParser implements TokenParser {
     }
 
     @Override
-    public @Optional Token parse(@Mandatory CharacterReader reader) {
+    public @Optional DoubleQuoteToken parse(@Mandatory CharacterReader reader) {
         if (reader.has(this::doubleQuote)) {
             return parse(reader, new TokenBuilder(reader.getPosition()));
         } else {
@@ -36,7 +35,7 @@ public @Service class DoubleQuoteTokenParser implements TokenParser {
         }
     }
 
-    private @Mandatory Token parse(@Mandatory CharacterReader reader, @Mandatory TokenBuilder builder) {
+    private @Mandatory DoubleQuoteToken parse(@Mandatory CharacterReader reader, @Mandatory TokenBuilder builder) {
         reader.read();
         while (reader.has()) {
             if (reader.has(this::backslash) && reader.hasNext()) {

@@ -4,7 +4,6 @@ import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.tokenizer.components.TokenParser;
-import cz.mg.token.Token;
 import cz.mg.token.tokens.WhitespaceToken;
 import cz.mg.tokenizer.components.CharacterReader;
 import cz.mg.tokenizer.components.TokenBuilder;
@@ -27,7 +26,7 @@ public @Service class WhitespaceTokenParser implements TokenParser {
     }
 
     @Override
-    public @Optional Token parse(@Mandatory CharacterReader reader) {
+    public @Optional WhitespaceToken parse(@Mandatory CharacterReader reader) {
         if (reader.has(this::space)) {
             return parse(reader, new TokenBuilder(reader.getPosition()));
         } else if (reader.has(this::tab) || reader.has(this::newline)) {
@@ -37,7 +36,7 @@ public @Service class WhitespaceTokenParser implements TokenParser {
         }
     }
 
-    private @Mandatory Token parse(@Mandatory CharacterReader reader, @Mandatory TokenBuilder builder) {
+    private @Mandatory WhitespaceToken parse(@Mandatory CharacterReader reader, @Mandatory TokenBuilder builder) {
         while (reader.has()) {
             if (reader.has(this::space)) {
                 builder.append(reader.read());

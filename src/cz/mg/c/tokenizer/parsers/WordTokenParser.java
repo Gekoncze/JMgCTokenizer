@@ -4,7 +4,6 @@ import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.tokenizer.components.TokenParser;
-import cz.mg.token.Token;
 import cz.mg.token.tokens.WordToken;
 import cz.mg.tokenizer.components.CharacterReader;
 import cz.mg.tokenizer.components.TokenBuilder;
@@ -46,7 +45,7 @@ public @Service class WordTokenParser implements TokenParser {
     }
 
     @Override
-    public @Optional Token parse(@Mandatory CharacterReader reader) {
+    public @Optional WordToken parse(@Mandatory CharacterReader reader) {
         if (reader.has(this::word)) {
             return parse(reader, new TokenBuilder(reader.getPosition()));
         } else {
@@ -54,7 +53,7 @@ public @Service class WordTokenParser implements TokenParser {
         }
     }
 
-    private @Mandatory Token parse(@Mandatory CharacterReader reader, @Mandatory TokenBuilder builder) {
+    private @Mandatory WordToken parse(@Mandatory CharacterReader reader, @Mandatory TokenBuilder builder) {
         while (reader.has()) {
             if (reader.has(this::wordOrNumber)) {
                 builder.append(reader.read());
