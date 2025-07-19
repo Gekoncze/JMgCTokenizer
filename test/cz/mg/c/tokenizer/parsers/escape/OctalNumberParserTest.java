@@ -73,8 +73,8 @@ public @Test class OctalNumberParserTest {
     }
 
     private void testParseMore() {
-        CharacterReader reader = new CharacterReader("1234");
+        CharacterReader reader = new CharacterReader("123foo");
         Assert.assertEquals(83, parser.parse(reader));
-        Assert.assertEquals('4', reader.read());
+        Assert.assertEquals('f', reader.read());
     }
 }
