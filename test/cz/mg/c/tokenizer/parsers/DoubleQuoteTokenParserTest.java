@@ -1,7 +1,11 @@
 package cz.mg.c.tokenizer.parsers;
 
+import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.classes.Test;
+import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.test.Assert;
 import cz.mg.token.tokens.quote.DoubleQuoteToken;
+import cz.mg.tokenizer.components.CharacterReader;
 
 public @Test class DoubleQuoteTokenParserTest {
     public static void main(String[] args) {
@@ -9,9 +13,12 @@ public @Test class DoubleQuoteTokenParserTest {
 
         DoubleQuoteTokenParserTest test = new DoubleQuoteTokenParserTest();
         test.testParse();
+        test.testParseEscapeSequence();
 
         System.out.println("OK");
     }
+
+    private final @Service DoubleQuoteTokenParser parser = DoubleQuoteTokenParser.getInstance();
 
     private void testParse() {
         TokenParserTester tester = new TokenParserTester(
@@ -36,6 +43,21 @@ public @Test class DoubleQuoteTokenParserTest {
         tester.testParse("", "\"test //\"", "");
         tester.testParse("", "\"test /*\"", "");
         tester.testParse("", "\"test '\"", "'");
-        tester.testParse("", "\"\\\\\"", "");
+    }
+
+    private void testParseEscapeSequence() {
+        Assert.assertEquals("n", parse("\"n\""));
+        Assert.assertEquals("\n", parse("\"\\n\""));
+        Assert.assertEquals("\"", parse("\"\\\"\""));
+        Assert.assertEquals("'", parse("\"\\'\""));
+        Assert.assertEquals("test \" test", parse("\"test \\\" test\""));
+        Assert.assertEquals("test ' test", parse("\"test \\' test\""));
+        Assert.assertEquals("K", parse("\"\\u004B\""));
+    }
+
+    private @Mandatory String parse(@Mandatory String input) {
+        DoubleQuoteToken output = parser.parse(new CharacterReader(input));
+        Assert.assertNotNull(output);
+        return output.getText();
     }
 }

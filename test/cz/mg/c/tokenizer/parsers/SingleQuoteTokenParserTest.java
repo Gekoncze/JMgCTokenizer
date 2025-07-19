@@ -49,6 +49,7 @@ public @Test class SingleQuoteTokenParserTest {
         Assert.assertEquals("\"", parse("'\\\"'"));
         Assert.assertEquals("'", parse("'\\''"));
         Assert.assertEquals("test \" test", parse("'test \\\" test'"));
+        Assert.assertEquals("test ' test", parse("'test \\' test'"));
         Assert.assertEquals("K", parse("'\\u004B'"));
     }
 
