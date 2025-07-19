@@ -3,10 +3,10 @@ package cz.mg.c.tokenizer.parsers;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
-import cz.mg.tokenizer.components.TokenParser;
 import cz.mg.token.tokens.WordToken;
 import cz.mg.tokenizer.components.CharacterReader;
 import cz.mg.tokenizer.components.TokenBuilder;
+import cz.mg.tokenizer.components.TokenParser;
 
 public @Service class WordTokenParser implements TokenParser {
     private static volatile @Service WordTokenParser instance;
@@ -47,21 +47,14 @@ public @Service class WordTokenParser implements TokenParser {
     @Override
     public @Optional WordToken parse(@Mandatory CharacterReader reader) {
         if (reader.has(this::word)) {
-            return parse(reader, new TokenBuilder(reader.getPosition()));
+            TokenBuilder builder = new TokenBuilder(reader.getPosition());
+            while (reader.has(this::wordOrNumber)) {
+                builder.append(reader.read());
+            }
+            return builder.build(WordToken::new);
         } else {
             return null;
         }
-    }
-
-    private @Mandatory WordToken parse(@Mandatory CharacterReader reader, @Mandatory TokenBuilder builder) {
-        while (reader.has()) {
-            if (reader.has(this::wordOrNumber)) {
-                builder.append(reader.read());
-            } else {
-                break;
-            }
-        }
-        return builder.build(WordToken::new);
     }
 
     private boolean word(char ch) {
