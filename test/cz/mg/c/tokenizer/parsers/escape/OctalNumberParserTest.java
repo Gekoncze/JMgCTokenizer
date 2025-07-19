@@ -15,12 +15,12 @@ public @Test class OctalNumberParserTest {
         test.testParseIllegal();
         test.testParseNegative();
         test.testParseTooLong();
+        test.testParseTooShort();
         test.testParse();
         test.testParseMore();
 
         System.out.println("OK");
     }
-
 
     private final @Service OctalNumberParser parser = OctalNumberParser.getInstance();
 
@@ -43,23 +43,34 @@ public @Test class OctalNumberParserTest {
     }
 
     private void testParseTooLong() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("12345671234567")))
-            .withMessage("Too long input should throw tokenize exception.")
+        CharacterReader reader = new CharacterReader("12345671234567");
+        Assert.assertEquals(83, parser.parse(reader));
+        Assert.assertEquals('4', reader.read());
+    }
+
+    private void testParseTooShort() {
+        Assert.assertThatCode(() -> parser.parse(new CharacterReader("1")))
+            .withMessage("Octal number must have at least 3 characters.")
+            .throwsException(TokenizeException.class);
+
+        Assert.assertThatCode(() -> parser.parse(new CharacterReader("12")))
+            .withMessage("Octal number must have at least 3 characters.")
             .throwsException(TokenizeException.class);
     }
 
     private void testParse() {
-        Assert.assertEquals(0, parser.parse(new CharacterReader("0")));
-        Assert.assertEquals(1, parser.parse(new CharacterReader("1")));
-        Assert.assertEquals(7, parser.parse(new CharacterReader("7")));
-        Assert.assertEquals(8, parser.parse(new CharacterReader("10")));
-        Assert.assertEquals(9, parser.parse(new CharacterReader("11")));
-        Assert.assertEquals(10, parser.parse(new CharacterReader("12")));
+        Assert.assertEquals(0, parser.parse(new CharacterReader("000")));
+        Assert.assertEquals(1, parser.parse(new CharacterReader("001")));
+        Assert.assertEquals(7, parser.parse(new CharacterReader("007")));
+        Assert.assertEquals(8, parser.parse(new CharacterReader("010")));
+        Assert.assertEquals(9, parser.parse(new CharacterReader("011")));
+        Assert.assertEquals(10, parser.parse(new CharacterReader("012")));
+        Assert.assertEquals(83, parser.parse(new CharacterReader("123")));
     }
 
     private void testParseMore() {
-        CharacterReader reader = new CharacterReader("19");
-        Assert.assertEquals(1, parser.parse(reader));
-        Assert.assertEquals('9', reader.read());
+        CharacterReader reader = new CharacterReader("1234");
+        Assert.assertEquals(83, parser.parse(reader));
+        Assert.assertEquals('4', reader.read());
     }
 }

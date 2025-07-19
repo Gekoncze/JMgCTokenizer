@@ -31,9 +31,9 @@ public @Service class OctalNumberParser {
         int position = reader.getPosition();
 
         StringBuilder builder = new StringBuilder();
-        while (reader.has(this::octal)) {
-            builder.append(reader.read());
-        }
+        builder.append(reader.read(this::octal));
+        builder.append(reader.read(this::octal));
+        builder.append(reader.read(this::octal));
 
         try {
             return Integer.parseInt(builder.toString(), 8);
