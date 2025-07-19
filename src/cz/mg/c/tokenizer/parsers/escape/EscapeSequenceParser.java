@@ -15,6 +15,7 @@ public @Service class EscapeSequenceParser {
                     instance = new EscapeSequenceParser();
                     instance.octalNumberParser = OctalNumberParser.getInstance();
                     instance.hexNumberParser = HexNumberParser.getInstance();
+                    instance.unicodeNumberParser = UnicodeNumberParser.getInstance();
                 }
             }
         }
@@ -23,6 +24,7 @@ public @Service class EscapeSequenceParser {
 
     private @Service OctalNumberParser octalNumberParser;
     private @Service HexNumberParser hexNumberParser;
+    private @Service UnicodeNumberParser unicodeNumberParser;
 
     private EscapeSequenceParser() {
     }
@@ -51,6 +53,8 @@ public @Service class EscapeSequenceParser {
             case ('"') -> 0x22;
             case ('?') -> 0x3F;
             case ('x') -> convertCode(hexNumberParser.parse(reader), position);
+            case ('u') -> convertUnicode(unicodeNumberParser.parseShort(reader), position);
+            case ('U') -> convertUnicode(unicodeNumberParser.parseLong(reader), position);
             default -> throw new TokenizeException(
                 reader.getPosition(),
                 "Unsupported escape sequence \\" + ch + "."
@@ -68,5 +72,23 @@ public @Service class EscapeSequenceParser {
         }
 
         return (char) i;
+    }
+
+    private char convertUnicode(int codePoint, int position) {
+        if (codePoint < 0) {
+            throw new TokenizeException(position, "Unexpected negative number in escape sequence.");
+        }
+
+        try {
+            char[] chars = Character.toChars(codePoint);
+
+            if (chars.length > 1) {
+                throw new TokenizeException(position, "Unsupported unicode character.");
+            }
+
+            return chars[0];
+        } catch (IllegalArgumentException e) {
+            throw new TokenizeException(position, "Invalid unicode code point.");
+        }
     }
 }

@@ -1,5 +1,5 @@
 ### NOW ###
-    add support for unicode escape sequences
+    ...
 
 ### SOON ###
     ...

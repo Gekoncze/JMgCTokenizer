@@ -19,9 +19,13 @@ public @Test class EscapeSequenceParserTest {
         test.testParseHex();
         test.testParseHexLong();
         test.testParseHexMore();
-        test.testParseOct();
-        test.testParseOctShort();
-        test.testParseOctMore();
+        test.testParseOctal();
+        test.testParseOctalShort();
+        test.testParseOctalMore();
+        test.testParseUnicode();
+        test.testParseUnicodeShort();
+        test.testParseUnicodeMore();
+        test.testParseUnicodeInvalid();
 
         System.out.println("OK");
     }
@@ -76,19 +80,50 @@ public @Test class EscapeSequenceParserTest {
         Assert.assertEquals('l', reader.read());
     }
 
-    private void testParseOct() {
+    private void testParseOctal() {
         Assert.assertEquals('\n', parser.parse(new CharacterReader("\\012")));
     }
 
-    private void testParseOctShort() {
+    private void testParseOctalShort() {
         Assert.assertThatCode(() -> parser.parse(new CharacterReader("\\1")))
             .withMessage("Too small octal number should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
 
-    private void testParseOctMore() {
+    private void testParseOctalMore() {
         CharacterReader reader = new CharacterReader("\\101foo");
         Assert.assertEquals('A', parser.parse(reader));
         Assert.assertEquals('f', reader.read());
+    }
+
+    private void testParseUnicode() {
+        Assert.assertEquals('O', parser.parse(new CharacterReader("\\u004F")));
+        Assert.assertEquals('P', parser.parse(new CharacterReader("\\U00000050")));
+    }
+
+    private void testParseUnicodeShort() {
+        Assert.assertThatCode(() -> parser.parse(new CharacterReader("\\u04F")))
+            .withMessage("Too small unicode number should throw tokenize exception.")
+            .throwsException(TokenizeException.class);
+
+        Assert.assertThatCode(() -> parser.parse(new CharacterReader("\\U0000050")))
+            .withMessage("Too small unicode number should throw tokenize exception.")
+            .throwsException(TokenizeException.class);
+    }
+
+    private void testParseUnicodeMore() {
+        CharacterReader readerShort = new CharacterReader("\\u004Fake");
+        Assert.assertEquals('O', parser.parse(readerShort));
+        Assert.assertEquals('a', readerShort.read());
+
+        CharacterReader readerLong = new CharacterReader("\\U00000050*");
+        Assert.assertEquals('P', parser.parse(readerLong));
+        Assert.assertEquals('*', readerLong.read());
+    }
+
+    private void testParseUnicodeInvalid() {
+        Assert.assertThatCode(() -> parser.parse(new CharacterReader("\\U0011FFFF")))
+            .withMessage("Invalid unicode number should throw tokenize exception.")
+            .throwsException(TokenizeException.class);
     }
 }
