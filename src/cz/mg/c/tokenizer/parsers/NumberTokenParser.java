@@ -3,10 +3,10 @@ package cz.mg.c.tokenizer.parsers;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
-import cz.mg.tokenizer.components.TokenParser;
 import cz.mg.token.tokens.NumberToken;
 import cz.mg.tokenizer.components.CharacterReader;
 import cz.mg.tokenizer.components.TokenBuilder;
+import cz.mg.tokenizer.components.TokenParser;
 
 public @Service class NumberTokenParser implements TokenParser {
     private static volatile @Service NumberTokenParser instance;
@@ -45,21 +45,14 @@ public @Service class NumberTokenParser implements TokenParser {
     @Override
     public @Optional NumberToken parse(@Mandatory CharacterReader reader) {
         if (reader.has(this::number)) {
-            return parse(reader, new TokenBuilder(reader.getPosition()));
+            TokenBuilder builder = new TokenBuilder(reader.getPosition());
+            while (reader.has(this::numberOrOther)) {
+                builder.append(reader.read());
+            }
+            return builder.build(NumberToken::new);
         } else {
             return null;
         }
-    }
-
-    private @Mandatory NumberToken parse(@Mandatory CharacterReader reader, @Mandatory TokenBuilder builder) {
-        while (reader.has()) {
-            if (reader.has(this::numberOrOther)) {
-                builder.append(reader.read());
-            } else {
-                break;
-            }
-        }
-        return builder.build(NumberToken::new);
     }
 
     private boolean number(char ch) {
