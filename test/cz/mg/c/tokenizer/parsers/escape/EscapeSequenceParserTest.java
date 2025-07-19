@@ -19,6 +19,9 @@ public @Test class EscapeSequenceParserTest {
         test.testParseHex();
         test.testParseHexLong();
         test.testParseHexMore();
+        test.testParseOct();
+        test.testParseOctShort();
+        test.testParseOctMore();
 
         System.out.println("OK");
     }
@@ -71,5 +74,21 @@ public @Test class EscapeSequenceParserTest {
         CharacterReader reader = new CharacterReader("\\x0Alone");
         Assert.assertEquals('\n', parser.parse(reader));
         Assert.assertEquals('l', reader.read());
+    }
+
+    private void testParseOct() {
+        Assert.assertEquals('\n', parser.parse(new CharacterReader("\\012")));
+    }
+
+    private void testParseOctShort() {
+        Assert.assertThatCode(() -> parser.parse(new CharacterReader("\\1")))
+            .withMessage("Too small octal number should throw tokenize exception.")
+            .throwsException(TokenizeException.class);
+    }
+
+    private void testParseOctMore() {
+        CharacterReader reader = new CharacterReader("\\101foo");
+        Assert.assertEquals('A', parser.parse(reader));
+        Assert.assertEquals('f', reader.read());
     }
 }

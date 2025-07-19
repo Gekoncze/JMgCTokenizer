@@ -13,6 +13,7 @@ public @Service class EscapeSequenceParser {
             synchronized (Service.class) {
                 if (instance == null) {
                     instance = new EscapeSequenceParser();
+                    instance.octalNumberParser = OctalNumberParser.getInstance();
                     instance.hexNumberParser = HexNumberParser.getInstance();
                 }
             }
@@ -20,6 +21,7 @@ public @Service class EscapeSequenceParser {
         return instance;
     }
 
+    private @Service OctalNumberParser octalNumberParser;
     private @Service HexNumberParser hexNumberParser;
 
     private EscapeSequenceParser() {
@@ -27,7 +29,13 @@ public @Service class EscapeSequenceParser {
 
     public char parse(@Mandatory CharacterReader reader) {
         int position = reader.getPosition();
+
         reader.read('\\');
+
+        if (reader.has(octalNumberParser::octal)) {
+            return convertCode(octalNumberParser.parse(reader), position);
+        }
+
         char ch = reader.read();
         return switch (ch) {
             case ('a') -> 0x07;
@@ -42,7 +50,7 @@ public @Service class EscapeSequenceParser {
             case ('\'') -> 0x27;
             case ('"') -> 0x22;
             case ('?') -> 0x3F;
-            case ('x') -> convertHex(hexNumberParser.parse(reader), position);
+            case ('x') -> convertCode(hexNumberParser.parse(reader), position);
             default -> throw new TokenizeException(
                 reader.getPosition(),
                 "Unsupported escape sequence \\" + ch + "."
@@ -50,7 +58,7 @@ public @Service class EscapeSequenceParser {
         };
     }
 
-    private char convertHex(int i, int position) {
+    private char convertCode(int i, int position) {
         if (i < 0) {
             throw new TokenizeException(position, "Unexpected negative number in escape sequence.");
         }

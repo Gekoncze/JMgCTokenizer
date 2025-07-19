@@ -1,5 +1,5 @@
 ### NOW ###
-    add support for octal escape sequences
+    ...
 
 ### SOON ###
     ...

@@ -56,6 +56,10 @@ public @Test class OctalNumberParserTest {
         Assert.assertThatCode(() -> parser.parse(new CharacterReader("12")))
             .withMessage("Octal number must have at least 3 characters.")
             .throwsException(TokenizeException.class);
+
+        Assert.assertThatCode(() -> parser.parse(new CharacterReader("12foo")))
+            .withMessage("Octal number must have at least 3 characters.")
+            .throwsException(TokenizeException.class);
     }
 
     private void testParse() {
