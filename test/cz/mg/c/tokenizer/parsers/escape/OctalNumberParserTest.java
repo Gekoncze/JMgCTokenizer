@@ -50,15 +50,15 @@ public @Test class OctalNumberParserTest {
 
     private void testParseTooShort() {
         Assert.assertThatCode(() -> parser.parse(new CharacterReader("1")))
-            .withMessage("Octal number must have at least 3 characters.")
+            .withMessage("Octal number must have 3 characters.")
             .throwsException(TokenizeException.class);
 
         Assert.assertThatCode(() -> parser.parse(new CharacterReader("12")))
-            .withMessage("Octal number must have at least 3 characters.")
+            .withMessage("Octal number must have 3 characters.")
             .throwsException(TokenizeException.class);
 
         Assert.assertThatCode(() -> parser.parse(new CharacterReader("12foo")))
-            .withMessage("Octal number must have at least 3 characters.")
+            .withMessage("Octal number must have 3 characters.")
             .throwsException(TokenizeException.class);
     }
 
