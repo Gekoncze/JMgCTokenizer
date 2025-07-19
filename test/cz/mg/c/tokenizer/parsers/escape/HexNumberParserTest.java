@@ -54,6 +54,7 @@ public @Test class HexNumberParserTest {
         Assert.assertEquals(7, parser.parse(new CharacterReader("7")));
         Assert.assertEquals(9, parser.parse(new CharacterReader("9")));
         Assert.assertEquals(10, parser.parse(new CharacterReader("A")));
+        Assert.assertEquals(10, parser.parse(new CharacterReader("0A")));
         Assert.assertEquals(11, parser.parse(new CharacterReader("B")));
         Assert.assertEquals(12, parser.parse(new CharacterReader("C")));
         Assert.assertEquals(13, parser.parse(new CharacterReader("D")));
