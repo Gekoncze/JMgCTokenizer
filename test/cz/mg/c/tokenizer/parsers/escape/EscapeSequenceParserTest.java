@@ -16,6 +16,9 @@ public @Test class EscapeSequenceParserTest {
         test.testParseIllegal();
         test.testParseSimple();
         test.testParseSimpleMore();
+        test.testParseHex();
+        test.testParseHexLong();
+        test.testParseHexMore();
 
         System.out.println("OK");
     }
@@ -51,5 +54,22 @@ public @Test class EscapeSequenceParserTest {
         CharacterReader reader = new CharacterReader("\\nYay!");
         Assert.assertEquals('\n', parser.parse(reader));
         Assert.assertEquals('Y', reader.read());
+    }
+
+    private void testParseHex() {
+        Assert.assertEquals('\n', parser.parse(new CharacterReader("\\x0A")));
+        Assert.assertEquals('?', parser.parse(new CharacterReader("\\x3F")));
+    }
+
+    private void testParseHexLong() {
+        Assert.assertThatCode(() -> parser.parse(new CharacterReader("\\x1234567")))
+            .withMessage("Too large hex number should throw tokenize exception.")
+            .throwsException(TokenizeException.class);
+    }
+
+    private void testParseHexMore() {
+        CharacterReader reader = new CharacterReader("\\x0Alone");
+        Assert.assertEquals('\n', parser.parse(reader));
+        Assert.assertEquals('l', reader.read());
     }
 }

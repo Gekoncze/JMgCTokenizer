@@ -1,5 +1,5 @@
 ### NOW ###
-    add support for hexadecimal escape sequences (such as \x123)
+    ...
 
 ### SOON ###
     ...
