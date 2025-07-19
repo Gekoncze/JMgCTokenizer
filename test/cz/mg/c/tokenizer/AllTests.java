@@ -7,6 +7,7 @@ public @Test class AllTests {
     public static void main(String[] args) {
         // cz.mg.c.tokenizer.parsers
         DoubleQuoteTokenParserTest.main(args);
+        EscapeSequenceParserTest.main(args);
         MultiLineCommentTokenParserTest.main(args);
         NumberTokenParserTest.main(args);
         SingleLineCommentTokenParserTest.main(args);

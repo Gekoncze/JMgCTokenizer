@@ -2,7 +2,8 @@
     ...
 
 ### SOON ###
-    ...
+    add support for hexadecimal escape sequences (such as \x123)
 
 ### LATER ###
-    ...
+    add support for octal escape sequences
+    add support for unicode escape sequences
