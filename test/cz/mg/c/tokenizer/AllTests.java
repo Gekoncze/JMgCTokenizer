@@ -4,12 +4,14 @@ import cz.mg.annotations.classes.Test;
 import cz.mg.c.tokenizer.parsers.*;
 import cz.mg.c.tokenizer.parsers.escape.EscapeSequenceParserTest;
 import cz.mg.c.tokenizer.parsers.escape.HexNumberParserTest;
+import cz.mg.c.tokenizer.parsers.escape.OctalNumberParserTest;
 
 public @Test class AllTests {
     public static void main(String[] args) {
         // cz.mg.c.tokenizer.escape
         EscapeSequenceParserTest.main(args);
         HexNumberParserTest.main(args);
+        OctalNumberParserTest.main(args);
 
         // cz.mg.c.tokenizer.parsers
         DoubleQuoteTokenParserTest.main(args);

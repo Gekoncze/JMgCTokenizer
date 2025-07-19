@@ -1,9 +1,8 @@
 ### NOW ###
-    ...
+    add support for octal escape sequences
 
 ### SOON ###
     ...
 
 ### LATER ###
-    add support for octal escape sequences
     add support for unicode escape sequences (possibly could use Character.digit method)
