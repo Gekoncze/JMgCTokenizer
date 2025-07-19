@@ -15,6 +15,7 @@ public @Test class EscapeSequenceParserTest {
         test.testParseMissing();
         test.testParseIllegal();
         test.testParseSimple();
+        test.testParseSimpleMore();
 
         System.out.println("OK");
     }
@@ -44,5 +45,11 @@ public @Test class EscapeSequenceParserTest {
         Assert.assertEquals('\t', parser.parse(new CharacterReader("\\t")));
         Assert.assertEquals('\'', parser.parse(new CharacterReader("\\'")));
         Assert.assertEquals('\"', parser.parse(new CharacterReader("\\" + '"')));
+    }
+
+    private void testParseSimpleMore() {
+        CharacterReader reader = new CharacterReader("\\nYay!");
+        Assert.assertEquals('\n', parser.parse(reader));
+        Assert.assertEquals('Y', reader.read());
     }
 }
