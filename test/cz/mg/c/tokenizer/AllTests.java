@@ -5,6 +5,7 @@ import cz.mg.c.tokenizer.parsers.*;
 import cz.mg.c.tokenizer.parsers.escape.EscapeSequenceParserTest;
 import cz.mg.c.tokenizer.parsers.escape.HexNumberParserTest;
 import cz.mg.c.tokenizer.parsers.escape.OctalNumberParserTest;
+import cz.mg.c.tokenizer.parsers.escape.UnicodeNumberParserTest;
 
 public @Test class AllTests {
     public static void main(String[] args) {
@@ -12,6 +13,7 @@ public @Test class AllTests {
         EscapeSequenceParserTest.main(args);
         HexNumberParserTest.main(args);
         OctalNumberParserTest.main(args);
+        UnicodeNumberParserTest.main(args);
 
         // cz.mg.c.tokenizer.parsers
         DoubleQuoteTokenParserTest.main(args);
