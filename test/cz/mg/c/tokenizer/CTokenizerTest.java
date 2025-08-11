@@ -5,10 +5,13 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.collections.list.List;
 import cz.mg.test.Assert;
 import cz.mg.token.Token;
-import cz.mg.token.tokens.*;
-import cz.mg.token.tokens.quote.DoubleQuoteToken;
-import cz.mg.token.tokens.comment.MultiLineCommentToken;
-import cz.mg.token.tokens.comment.SingleLineCommentToken;
+import cz.mg.token.tokens.NumberToken;
+import cz.mg.token.tokens.SymbolToken;
+import cz.mg.token.tokens.WhitespaceToken;
+import cz.mg.token.tokens.WordToken;
+import cz.mg.token.tokens.comments.MultiLineCommentToken;
+import cz.mg.token.tokens.comments.SingleLineCommentToken;
+import cz.mg.token.tokens.quotes.DoubleQuoteToken;
 
 import java.util.Objects;
 

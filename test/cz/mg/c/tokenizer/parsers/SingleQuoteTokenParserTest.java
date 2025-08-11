@@ -4,7 +4,7 @@ import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.classes.Test;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.test.Assert;
-import cz.mg.token.tokens.quote.SingleQuoteToken;
+import cz.mg.token.tokens.quotes.SingleQuoteToken;
 import cz.mg.tokenizer.components.CharacterReader;
 
 public @Test class SingleQuoteTokenParserTest {

@@ -4,7 +4,7 @@ import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.c.tokenizer.parsers.escape.EscapeSequenceParser;
-import cz.mg.token.tokens.quote.SingleQuoteToken;
+import cz.mg.token.tokens.quotes.SingleQuoteToken;
 import cz.mg.tokenizer.components.CharacterReader;
 import cz.mg.tokenizer.components.TokenBuilder;
 import cz.mg.tokenizer.components.TokenParser;

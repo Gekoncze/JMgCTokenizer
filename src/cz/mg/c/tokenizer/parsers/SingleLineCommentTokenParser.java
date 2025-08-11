@@ -3,7 +3,7 @@ package cz.mg.c.tokenizer.parsers;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
-import cz.mg.token.tokens.comment.SingleLineCommentToken;
+import cz.mg.token.tokens.comments.SingleLineCommentToken;
 import cz.mg.tokenizer.components.CharacterReader;
 import cz.mg.tokenizer.components.TokenBuilder;
 import cz.mg.tokenizer.components.TokenParser;
