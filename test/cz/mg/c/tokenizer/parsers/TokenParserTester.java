@@ -3,9 +3,11 @@ package cz.mg.c.tokenizer.parsers;
 import cz.mg.annotations.classes.Component;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.test.Assert;
-import cz.mg.tokenizer.components.TokenParser;
+import cz.mg.test.Assertions;
+import cz.mg.test.BiAssertions;
 import cz.mg.token.Token;
 import cz.mg.tokenizer.components.CharacterReader;
+import cz.mg.tokenizer.components.TokenParser;
 import cz.mg.tokenizer.exceptions.TokenizeException;
 
 public @Component class TokenParserTester {
@@ -28,7 +30,7 @@ public @Component class TokenParserTester {
 
     public void testException(@Mandatory String content) {
         CharacterReader reader = new CharacterReader(content);
-        Assert.assertThatCode(() -> {
+        Assertions.assertThatCode(() -> {
             for (int i = 0; i < content.length(); i++) {
                 parser.parse(reader);
                 reader.read();
@@ -57,12 +59,12 @@ public @Component class TokenParserTester {
             Token actualToken = parser.parse(reader);
             if (i == expectedTokenPosition) {
                 Assert.assertNotNull(actualToken);
-                Assert.assertThat(expectedTokenText, actualToken.getText())
+                BiAssertions.assertThat(expectedTokenText, actualToken.getText())
                     .withPrintFunction(t -> '"' + t + '"')
                     .areEqual();
                 Assert.assertEquals(expectedTokenPosition, actualToken.getPosition());
                 Assert.assertEquals(expectedReaderPosition, reader.getPosition());
-                Assert.assertThat(type, actualToken.getClass())
+                BiAssertions.assertThat(type, actualToken.getClass())
                     .withPrintFunction(Class::getSimpleName)
                     .areEqual();
                 return;

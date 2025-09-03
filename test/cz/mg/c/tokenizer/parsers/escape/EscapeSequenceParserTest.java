@@ -3,6 +3,7 @@ package cz.mg.c.tokenizer.parsers.escape;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.classes.Test;
 import cz.mg.test.Assert;
+import cz.mg.test.Assertions;
 import cz.mg.tokenizer.components.CharacterReader;
 import cz.mg.tokenizer.exceptions.TokenizeException;
 
@@ -33,19 +34,19 @@ public @Test class EscapeSequenceParserTest {
     private final @Service EscapeSequenceParser parser = EscapeSequenceParser.getInstance();
 
     private void testParseEmpty() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("")))
             .withMessage("Parsing empty input should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
 
     private void testParseMissing() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("\\")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("\\")))
             .withMessage("Parsing with missing sequence in input should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
 
     private void testParseIllegal() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("aa")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("aa")))
             .withMessage("Parsing with illegal input should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
@@ -69,7 +70,7 @@ public @Test class EscapeSequenceParserTest {
     }
 
     private void testParseHexLong() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("\\x1234567")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("\\x1234567")))
             .withMessage("Too large hex number should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
@@ -85,7 +86,7 @@ public @Test class EscapeSequenceParserTest {
     }
 
     private void testParseOctalShort() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("\\1")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("\\1")))
             .withMessage("Too small octal number should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
@@ -102,11 +103,11 @@ public @Test class EscapeSequenceParserTest {
     }
 
     private void testParseUnicodeShort() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("\\u04F")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("\\u04F")))
             .withMessage("Too small unicode number should throw tokenize exception.")
             .throwsException(TokenizeException.class);
 
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("\\U0000050")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("\\U0000050")))
             .withMessage("Too small unicode number should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
@@ -122,7 +123,7 @@ public @Test class EscapeSequenceParserTest {
     }
 
     private void testParseUnicodeInvalid() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("\\U0011FFFF")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("\\U0011FFFF")))
             .withMessage("Invalid unicode number should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }

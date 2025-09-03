@@ -3,6 +3,7 @@ package cz.mg.c.tokenizer.parsers.escape;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.classes.Test;
 import cz.mg.test.Assert;
+import cz.mg.test.Assertions;
 import cz.mg.tokenizer.components.CharacterReader;
 import cz.mg.tokenizer.exceptions.TokenizeException;
 
@@ -25,19 +26,19 @@ public @Test class OctalNumberParserTest {
     private final @Service OctalNumberParser parser = OctalNumberParser.getInstance();
 
     private void testParseEmpty() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("")))
             .withMessage("Empty input should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
 
     private void testParseIllegal() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("8")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("8")))
             .withMessage("Illegal input should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
 
     private void testParseNegative() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("-1")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("-1")))
             .withMessage("Negative numbers are not supported and should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
@@ -49,15 +50,15 @@ public @Test class OctalNumberParserTest {
     }
 
     private void testParseTooShort() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("1")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("1")))
             .withMessage("Octal number must have 3 characters.")
             .throwsException(TokenizeException.class);
 
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("12")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("12")))
             .withMessage("Octal number must have 3 characters.")
             .throwsException(TokenizeException.class);
 
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("12foo")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("12foo")))
             .withMessage("Octal number must have 3 characters.")
             .throwsException(TokenizeException.class);
     }

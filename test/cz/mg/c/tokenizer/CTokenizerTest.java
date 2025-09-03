@@ -3,7 +3,7 @@ package cz.mg.c.tokenizer;
 import cz.mg.annotations.classes.Test;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.collections.list.List;
-import cz.mg.test.Assert;
+import cz.mg.test.BiAssertions;
 import cz.mg.token.Token;
 import cz.mg.token.tokens.NumberToken;
 import cz.mg.token.tokens.SymbolToken;
@@ -79,7 +79,7 @@ public @Test class CTokenizerTest {
     private void testTokenize(@Mandatory String content, @Mandatory List<Token> expectedTokens) {
         CTokenizer tokenizer = new CTokenizer();
         List<Token> actualTokens = tokenizer.tokenize(content);
-        Assert.assertThatCollections(expectedTokens, actualTokens)
+        BiAssertions.assertThat(expectedTokens, actualTokens)
             .withCompareFunction(this::compare)
             .withPrintFunction(this::print)
             .areEqual();

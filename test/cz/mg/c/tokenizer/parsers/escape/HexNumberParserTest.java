@@ -3,6 +3,7 @@ package cz.mg.c.tokenizer.parsers.escape;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.classes.Test;
 import cz.mg.test.Assert;
+import cz.mg.test.Assertions;
 import cz.mg.tokenizer.components.CharacterReader;
 import cz.mg.tokenizer.exceptions.TokenizeException;
 
@@ -25,25 +26,25 @@ public @Test class HexNumberParserTest {
     private final @Service HexNumberParser parser = HexNumberParser.getInstance();
 
     private void testParseEmpty() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("")))
             .withMessage("Empty input should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
 
     private void testParseIllegal() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("lol")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("lol")))
             .withMessage("Illegal input should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
 
     private void testParseNegative() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("-1")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("-1")))
             .withMessage("Negative numbers are not supported and should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
 
     private void testParseTooLong() {
-        Assert.assertThatCode(() -> parser.parse(new CharacterReader("123456789ABCDEF")))
+        Assertions.assertThatCode(() -> parser.parse(new CharacterReader("123456789ABCDEF")))
             .withMessage("Too long input should throw tokenize exception.")
             .throwsException(TokenizeException.class);
     }
