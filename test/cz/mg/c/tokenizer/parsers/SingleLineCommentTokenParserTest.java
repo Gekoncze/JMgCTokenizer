@@ -1,6 +1,7 @@
 package cz.mg.c.tokenizer.parsers;
 
 import cz.mg.annotations.classes.Test;
+import cz.mg.c.tokenizer.test.TokenParserTester;
 import cz.mg.token.tokens.comments.SingleLineCommentToken;
 
 public @Test class SingleLineCommentTokenParserTest {
@@ -15,7 +16,7 @@ public @Test class SingleLineCommentTokenParserTest {
 
     private void testParse() {
         TokenParserTester tester = new TokenParserTester(
-            SingleLineCommentTokenParser.getInstance(), 2, 0, SingleLineCommentToken.class
+            SingleLineCommentTokenParser.getInstance(), 2, 0, SingleLineCommentToken::new
         );
         tester.testParse("");
         tester.testParse("int a = 0;");

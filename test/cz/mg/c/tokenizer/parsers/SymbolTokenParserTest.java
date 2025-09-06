@@ -1,6 +1,7 @@
 package cz.mg.c.tokenizer.parsers;
 
 import cz.mg.annotations.classes.Test;
+import cz.mg.c.tokenizer.test.TokenParserTester;
 import cz.mg.token.tokens.SymbolToken;
 
 public @Test class SymbolTokenParserTest {
@@ -15,7 +16,7 @@ public @Test class SymbolTokenParserTest {
 
     private void testParse() {
         TokenParserTester tester = new TokenParserTester(
-            SymbolTokenParser.getInstance(), 0, 0, SymbolToken.class
+            SymbolTokenParser.getInstance(), 0, 0, SymbolToken::new
         );
         tester.testParse("");
         tester.testParse("1");

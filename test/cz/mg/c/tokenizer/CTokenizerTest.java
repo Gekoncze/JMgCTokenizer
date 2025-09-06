@@ -3,8 +3,8 @@ package cz.mg.c.tokenizer;
 import cz.mg.annotations.classes.Test;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.collections.list.List;
-import cz.mg.test.BiAssertions;
 import cz.mg.token.Token;
+import cz.mg.token.test.TokenAssert;
 import cz.mg.token.tokens.NumberToken;
 import cz.mg.token.tokens.SymbolToken;
 import cz.mg.token.tokens.WhitespaceToken;
@@ -12,8 +12,6 @@ import cz.mg.token.tokens.WordToken;
 import cz.mg.token.tokens.comments.MultiLineCommentToken;
 import cz.mg.token.tokens.comments.SingleLineCommentToken;
 import cz.mg.token.tokens.quotes.DoubleQuoteToken;
-
-import java.util.Objects;
 
 public @Test class CTokenizerTest {
     public static void main(String[] args) {
@@ -24,6 +22,8 @@ public @Test class CTokenizerTest {
 
         System.out.println("OK");
     }
+
+    private final @Mandatory CTokenizer tokenizer = new CTokenizer();
 
     private void testTokenize() {
         testTokenize(
@@ -73,26 +73,9 @@ public @Test class CTokenizerTest {
     }
 
     private void testTokenize(@Mandatory String content, Token... expectedTokens) {
-        testTokenize(content, new List<>(expectedTokens));
-    }
-
-    private void testTokenize(@Mandatory String content, @Mandatory List<Token> expectedTokens) {
-        CTokenizer tokenizer = new CTokenizer();
-        List<Token> actualTokens = tokenizer.tokenize(content);
-        BiAssertions.assertThat(expectedTokens, actualTokens)
-            .withCompareFunction(this::compare)
-            .withPrintFunction(this::print)
-            .areEqual();
-    }
-
-
-    private boolean compare(@Mandatory Token a, @Mandatory Token b) {
-        return Objects.equals(a.getText(), b.getText())
-            && Objects.equals(a.getPosition(), b.getPosition())
-            && Objects.equals(a.getClass(), b.getClass());
-    }
-
-    private @Mandatory String print(@Mandatory Token token) {
-        return token.getClass().getSimpleName() + "(\"" + token.getText() + "\"," + token.getPosition() + ")";
+        TokenAssert.assertEquals(
+            new List<>(expectedTokens),
+            tokenizer.tokenize(content)
+        );
     }
 }

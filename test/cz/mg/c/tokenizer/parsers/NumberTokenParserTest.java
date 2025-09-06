@@ -1,6 +1,7 @@
 package cz.mg.c.tokenizer.parsers;
 
 import cz.mg.annotations.classes.Test;
+import cz.mg.c.tokenizer.test.TokenParserTester;
 import cz.mg.token.tokens.NumberToken;
 
 public @Test class NumberTokenParserTest {
@@ -15,7 +16,7 @@ public @Test class NumberTokenParserTest {
 
     private void testParse() {
         TokenParserTester tester = new TokenParserTester(
-            NumberTokenParser.getInstance(), 0, 0, NumberToken.class
+            NumberTokenParser.getInstance(), 0, 0, NumberToken::new
         );
         tester.testParse("");
         tester.testParse("a");

@@ -3,6 +3,7 @@ package cz.mg.c.tokenizer.parsers;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.classes.Test;
 import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.c.tokenizer.test.TokenParserTester;
 import cz.mg.test.Assert;
 import cz.mg.token.tokens.quotes.DoubleQuoteToken;
 import cz.mg.tokenizer.components.CharacterReader;
@@ -22,7 +23,7 @@ public @Test class DoubleQuoteTokenParserTest {
 
     private void testParse() {
         TokenParserTester tester = new TokenParserTester(
-            DoubleQuoteTokenParser.getInstance(), 1, 1, DoubleQuoteToken.class
+            DoubleQuoteTokenParser.getInstance(), 1, 1, DoubleQuoteToken::new
         );
         tester.testParse("");
         tester.testException("\"");

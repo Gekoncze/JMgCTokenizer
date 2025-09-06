@@ -1,6 +1,7 @@
 package cz.mg.c.tokenizer.parsers;
 
 import cz.mg.annotations.classes.Test;
+import cz.mg.c.tokenizer.test.TokenParserTester;
 import cz.mg.token.tokens.WhitespaceToken;
 
 public @Test class WhitespaceTokenParserTest {
@@ -15,7 +16,7 @@ public @Test class WhitespaceTokenParserTest {
 
     private void testParse() {
         TokenParserTester tester = new TokenParserTester(
-            WhitespaceTokenParser.getInstance(), 0, 0, WhitespaceToken.class
+            WhitespaceTokenParser.getInstance(), 0, 0, WhitespaceToken::new
         );
         tester.testParse("");
         tester.testParse("1");

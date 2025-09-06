@@ -1,6 +1,7 @@
 package cz.mg.c.tokenizer.parsers;
 
 import cz.mg.annotations.classes.Test;
+import cz.mg.c.tokenizer.test.TokenParserTester;
 import cz.mg.token.tokens.WordToken;
 
 public @Test class WordTokenParserTest {
@@ -15,7 +16,7 @@ public @Test class WordTokenParserTest {
 
     private void testParse() {
         TokenParserTester tester = new TokenParserTester(
-            WordTokenParser.getInstance(), 0, 0, WordToken.class
+            WordTokenParser.getInstance(), 0, 0, WordToken::new
         );
         tester.testParse("");
         tester.testParse("1");

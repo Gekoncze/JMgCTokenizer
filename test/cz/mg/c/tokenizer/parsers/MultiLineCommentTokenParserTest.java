@@ -1,6 +1,7 @@
 package cz.mg.c.tokenizer.parsers;
 
 import cz.mg.annotations.classes.Test;
+import cz.mg.c.tokenizer.test.TokenParserTester;
 import cz.mg.token.tokens.comments.MultiLineCommentToken;
 
 public @Test class MultiLineCommentTokenParserTest {
@@ -15,7 +16,7 @@ public @Test class MultiLineCommentTokenParserTest {
 
     private void testParse() {
         TokenParserTester tester = new TokenParserTester(
-            MultiLineCommentTokenParser.getInstance(), 2, 2, MultiLineCommentToken.class
+            MultiLineCommentTokenParser.getInstance(), 2, 2, MultiLineCommentToken::new
         );
         tester.testParse("");
         tester.testException("/*");

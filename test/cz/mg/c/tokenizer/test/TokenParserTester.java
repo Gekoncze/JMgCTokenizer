@@ -1,11 +1,11 @@
-package cz.mg.c.tokenizer.parsers;
+package cz.mg.c.tokenizer.test;
 
 import cz.mg.annotations.classes.Component;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.test.Assert;
 import cz.mg.test.Assertions;
-import cz.mg.test.BiAssertions;
 import cz.mg.token.Token;
+import cz.mg.token.test.TokenAssert;
 import cz.mg.tokenizer.components.CharacterReader;
 import cz.mg.tokenizer.components.TokenParser;
 import cz.mg.tokenizer.exceptions.TokenizeException;
@@ -14,18 +14,18 @@ public @Component class TokenParserTester {
     private final @Mandatory TokenParser parser;
     private final int beforeCount;
     private final int afterCount;
-    private final @Mandatory Class<? extends Token> type;
+    private final @Mandatory TokenFactory tokenFactory;
 
     public TokenParserTester(
         @Mandatory TokenParser parser,
         int beforeCount,
         int afterCount,
-        @Mandatory Class<? extends Token> type
+        @Mandatory TokenFactory tokenFactory
     ) {
         this.parser = parser;
         this.beforeCount = beforeCount;
         this.afterCount = afterCount;
-        this.type = type;
+        this.tokenFactory = tokenFactory;
     }
 
     public void testException(@Mandatory String content) {
@@ -51,22 +51,18 @@ public @Component class TokenParserTester {
         String content = before + token + after;
         CharacterReader reader = new CharacterReader(content);
 
-        int expectedTokenPosition = before.length();
-        String expectedTokenText = token.substring(beforeCount, token.length() - afterCount);
+        Token expectedToken = tokenFactory.create();
+        expectedToken.setPosition(before.length());
+        expectedToken.setText(token.substring(beforeCount, token.length() - afterCount));
+
         int expectedReaderPosition = (before + token).length();
 
-        for (int i = 0; i < content.length() && i <= expectedTokenPosition; i++) {
+        for (int i = 0; i < content.length() && i <= expectedToken.getPosition(); i++) {
             Token actualToken = parser.parse(reader);
-            if (i == expectedTokenPosition) {
+            if (i == expectedToken.getPosition()) {
                 Assert.assertNotNull(actualToken);
-                BiAssertions.assertThat(expectedTokenText, actualToken.getText())
-                    .withPrintFunction(t -> '"' + t + '"')
-                    .areEqual();
-                Assert.assertEquals(expectedTokenPosition, actualToken.getPosition());
+                TokenAssert.assertEquals(expectedToken, actualToken);
                 Assert.assertEquals(expectedReaderPosition, reader.getPosition());
-                BiAssertions.assertThat(type, actualToken.getClass())
-                    .withPrintFunction(Class::getSimpleName)
-                    .areEqual();
                 return;
             } else {
                 Assert.assertNull(actualToken);
